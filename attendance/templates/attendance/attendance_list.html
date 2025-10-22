@@ -1,12 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Attendance List</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>********Welcome***********8</h1>
-    <p>The student attendance list</p>
+  <div class="container py-4">
+    <h2 class="h5 mb-3">Attendance</h2>
+
+    <div class="card card-body p-3">
+      {% if records %}
+        <table class="table table-sm table-striped mb-0">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Student</th>
+              <th>Class</th>
+              <th>Present</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for r in records %}
+            <tr>
+              <td>{{ r.date }}</td>
+              <td>{{ r.student.name }}</td>
+              <td>{{ r.student.classroom }}</td>
+              <td>{% if r.present %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p class="mb-0">No attendance records.</p>
+      {% endif %}
+    </div>
+  </div>
 </body>
 </html>

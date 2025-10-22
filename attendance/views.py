@@ -6,7 +6,7 @@ from django.utils import timezone
 # Create your views here.
 def attendance_list(request):
     records= Attendance.objects.select_related('student').order_by('-date')
-    return render(request, 'attandance/attendace_list.html', {
+    return render(request, 'attendance/attendance_list.html', {
         'records':records
     })
 
@@ -25,12 +25,17 @@ def mark_attendance(request):
     students = Student.objects.all()
     date= timezone.now().date()
     if request.method == 'POST':
+
+        print(request.POST)
+
+
         for student in students:
             is_present = f'student_{student.id}' in request.POST
             Attendance.objects.update_or_create(
                 student=student,
                 date=date,
-                default={'present': is_present}
+                defaults = {'present': is_present}
             )
-            return redirect('attendance_list')
+
+        return redirect('/attendance/attendance_list')
     return render(request, 'attendance/mark_attendance.html', {'students':students})
